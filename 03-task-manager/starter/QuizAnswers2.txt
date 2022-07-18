@@ -1,0 +1,12 @@
+1. We created a custom middleware function that takes care of all the try/catch 
+blocks and the next(error) call in the controllers. This allow us to cleanup some of the repition found in
+the controllers. This package is included in the newer version of Express.
+
+2.const getTask = asyncWrapper(async (req, res, next) => {
+    const {id: taskID} = req.params
+    const task = await Task.findOne({ _id: taskID })
+    if (!task){
+      return next(createCustomError(`No task with id: ${taskID}`, 404)); 
+    }
+    res.status(200).json({ task })
+})
